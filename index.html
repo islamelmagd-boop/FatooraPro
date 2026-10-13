@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>تركيبة - المنظومة المالية والتسعيرية الشاملة</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-area">
+        <h1>تركيـبة <span>Pro</span></h1>
+        <p>نظام التحليل المالي والتسعير الذكي</p>
+      </div>
+      <div class="quick-status">
+        <span class="badge">25 قاعدة تجارية متكاملة</span>
+      </div>
+    </header>
+
+    <nav class="category-tabs">
+      <button class="tab-btn active" data-tab="tab-deals">صفقات الشراء والسيولة</button>
+      <button class="tab-btn" data-tab="tab-pricing">التسعير وحماية الهامش</button>
+      <button class="tab-btn" data-tab="tab-turnover">المخزون وسرعة الدوران</button>
+      <button class="tab-btn" data-tab="tab-audit">الفواتير والميزانية</button>
+      <button class="tab-btn" data-tab="tab-finance">القروض والجمعيات</button>
+    </nav>
+
+    <main class="content-body">
+      <section id="tab-deals" class="tab-pane active">
+        <div class="card">
+          <div class="card-header"><h3>1. فاحص الصفقات ومؤشر الجدوى (DVI)</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>التكلفة السابقة المسجلة للقطعة</label><input type="number" id="dvi-stored" placeholder="مثال: 50"></div>
+              <div class="form-group"><label>إجمالي المبلغ المدفوع للعرض</label><input type="number" id="dvi-cash" placeholder="مثال: 4500"></div>
+              <div class="form-group"><label>مصاريف إضافية (شحن/عتالة)</label><input type="number" id="dvi-extra" value="0"></div>
+              <div class="form-group"><label>عدد القطع المدفوعة</label><input type="number" id="dvi-paid-pcs" placeholder="مثال: 100"></div>
+              <div class="form-group"><label>قطع بونص مجانية</label><input type="number" id="dvi-bonus" value="0"></div>
+              <div class="form-group"><label>المبيعات الأسبوعية المتوقعة</label><input type="number" id="dvi-weekly-sales" placeholder="مثال: 30"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runDVI()">تحليل الصفقة</button>
+            <div id="dvi-result" class="result-box hidden"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>2. خصم الدفع النقدي مقابل الأجل</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>نسبة خصم الكاش المعروضة (%)</label><input type="number" id="cash-disc-rate" placeholder="مثال: 3"></div>
+              <div class="form-group"><label>مهلة السداد الآجل (أيام)</label><input type="number" id="cash-disc-days" placeholder="مثال: 30"></div>
+              <div class="form-group"><label>إجمالي قيمة الفاتورة</label><input type="number" id="cash-disc-amount" placeholder="مثال: 15000"></div>
+              <div class="form-group"><label>الحد الأدنى المقبول للاستثمار سنويًا (%)</label><input type="number" id="cash-disc-hurdle" value="27"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runCashVsCredit()">مقارنة القرار المالي</button>
+            <div id="cash-credit-result" class="result-box hidden"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>3. التكلفة الواصلة (توزيع النقل النسبي)</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>سعر شراء القطعة في الفاتورة</label><input type="number" id="landed-price" placeholder="مثال: 80"></div>
+              <div class="form-group"><label>الكمية المشتراة</label><input type="number" id="landed-qty" placeholder="مثال: 25"></div>
+              <div class="form-group"><label>إجمالي قيمة بضاعة الفاتورة بالكامل</label><input type="number" id="landed-invoice-total" placeholder="مثال: 10000"></div>
+              <div class="form-group"><label>إجمالي مصاريف النقل والشحن</label><input type="number" id="landed-shipping" placeholder="مثال: 400"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runLandedCost()">حساب التكلفة الواصلة</button>
+            <div id="landed-result" class="result-box hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-pricing" class="tab-pane">
+        <div class="card">
+          <div class="card-header"><h3>6. حماية رأس المال من ارتفاع تكلفة الاستبدال</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>سعر البيع الحالي على الرف</label><input type="number" id="rep-current-sell" placeholder="مثال: 60"></div>
+              <div class="form-group"><label>سعر الشراء المتوقع للدفعة الجديدة</label><input type="number" id="rep-next-cost" placeholder="مثال: 62"></div>
+              <div class="form-group"><label>هامش الربح المستهدف المطلوب (%)</label><input type="number" id="rep-target-margin" value="25"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runReplacement()">فحص أمان السعر</button>
+            <div id="rep-result" class="result-box hidden"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>10. حارس الهامش والخصم الآمن للزبون</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>سعر البيع المكتوب</label><input type="number" id="cust-sell-price" placeholder="مثال: 100"></div>
+              <div class="form-group"><label>تكلفة الشراء الحالية أو الاستبدال</label><input type="number" id="cust-cost-price" placeholder="مثال: 75"></div>
+              <div class="form-group"><label>نسبة الخصم المطلوبة للزبون (%)</label><input type="number" id="cust-disc-req" placeholder="مثال: 15"></div>
+              <div class="form-group"><label>الحد الأدنى الآمن لهامش المحل (%)</label><input type="number" id="cust-min-margin" value="10"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runSafeCustomerDiscount()">فحص أمان الخصم</button>
+            <div id="cust-disc-result" class="result-box hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-turnover" class="tab-pane">
+        <div class="card">
+          <div class="card-header"><h3>8. عائد الهامش على استثمار المخزون (GMROI)</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>سعر البيع</label><input type="number" id="gmroi-sell" placeholder="مثال: 120"></div>
+              <div class="form-group"><label>سعر التكلفة</label><input type="number" id="gmroi-cost" placeholder="مثال: 90"></div>
+              <div class="form-group"><label>المبيعات الأسبوعية المقدرة</label><input type="number" id="gmroi-sales" placeholder="مثال: 15"></div>
+              <div class="form-group"><label>متوسط قطع المخزون المحفوظة</label><input type="number" id="gmroi-stock" placeholder="مثال: 30"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runGMROI()">قياس إنتاجية الصنف</button>
+            <div id="gmroi-result" class="result-box hidden"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>9. نقطة استرداد الكاش للفاتورة (الأيام والقطع)</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>إجمالي مبلغ الفاتورة المدفوع</label><input type="number" id="payback-invoice" placeholder="مثال: 6000"></div>
+              <div class="form-group"><label>سعر بيع القطعة</label><input type="number" id="payback-sell" placeholder="مثال: 100"></div>
+              <div class="form-group"><label>متوسط المبيعات اليومية</label><input type="number" id="payback-daily" placeholder="مثال: 4"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runPayback()">حساب زمن استرداد السيولة</button>
+            <div id="payback-result" class="result-box hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-audit" class="tab-pane">
+        <div class="card">
+          <div class="card-header"><h3>18. مدقق فاتورة المورد الحسابي</h3></div>
+          <div class="card-body">
+            <div class="form-group"><label>الإجمالي المكتوب على الفاتورة الورقية</label><input type="number" id="audit-printed" placeholder="مثال: 8450"></div>
+            <div id="audit-lines-container">
+              <div class="line-row grid-3">
+                <input type="text" placeholder="اسم الصنف" class="line-name">
+                <input type="number" placeholder="الكمية" class="line-qty">
+                <input type="number" placeholder="سعر الوحدة" class="line-price">
+              </div>
+            </div>
+            <button class="btn btn-secondary" onclick="addAuditLine()">+ إضافة بند آخر</button>
+            <button class="btn btn-primary" onclick="runInvoiceAudit()">تدقيق ومطابقة الفاتورة</button>
+            <div id="audit-result" class="result-box hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-finance" class="tab-pane">
+        <div class="card highlight-card">
+          <div class="card-header"><h3>25. حاسبة جمعيات ماني فيلرز وتشغيل الكاش في البضاعة</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group">
+                <label>مدة الجمعية بالشهور</label>
+                <select id="mf-duration">
+                  <option value="6">جمعية 6 شهور</option>
+                  <option value="10">جمعية 10 شهور</option>
+                  <option value="12" selected>جمعية 12 شهر</option>
+                </select>
+              </div>
+              <div class="form-group"><label>رقم الدور (شهر القبض)</label><input type="number" id="mf-slot" min="1" max="12" value="3"></div>
+              <div class="form-group"><label>مبلغ القبض الإجمالي (ج)</label><input type="number" id="mf-amount" placeholder="مثال: 30000" value="30000"></div>
+              <div class="form-group"><label>خصم الكاش المتوقع من المورد عند الشراء بهذا المبلغ (%)</label><input type="number" id="mf-discount" placeholder="مثال: 12" value="12"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runMoneyFellows()">تحليل تكلفة الجمعية وجدواها التجارية</button>
+            <div id="mf-result" class="result-box hidden"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>24. حاسبة جدوى تشغيل القروض التجارية وتغطية الفائدة</h3></div>
+          <div class="card-body">
+            <div class="grid-2">
+              <div class="form-group"><label>مبلغ القرض المطلوب</label><input type="number" id="loan-amount" placeholder="مثال: 50000"></div>
+              <div class="form-group"><label>الفائدة السنوية البنكية (%)</label><input type="number" id="loan-interest" placeholder="مثال: 22"></div>
+              <div class="form-group"><label>مدة سداد القرض (بالشهور)</label><input type="number" id="loan-months" value="12"></div>
+              <div class="form-group"><label>متوسط هامش ربح البضاعة (%)</label><input type="number" id="loan-margin" value="20"></div>
+              <div class="form-group"><label>دوران رأس المال المتوقع شهرياً (مرات)</label><input type="number" id="loan-turns" value="1"></div>
+            </div>
+            <button class="btn btn-primary" onclick="runLoanArbitrage()">تحليل تشغيل القرض</button>
+            <div id="loan-result" class="result-box hidden"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
